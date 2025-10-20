@@ -19,14 +19,8 @@ class ApplicationForm
                     ->default(auth()->id()),
 
                 Hidden::make('kindergarten_id')
-                    ->default(fn () => request()->get('kindergarten_id')),
+                    ->default(fn() => request()->get('kindergarten_id')),
 
-                Select::make('kindergarten_display')
-                    ->relationship('kindergarten', 'name', fn ($query) => $query->where('id', request()->get('kindergarten_id')))
-                    ->label('Bog\'cha')
-                    ->default(fn () => request()->get('kindergarten_id'))
-                    ->disabled()
-                    ->dehydrated(false),
 
                 TextInput::make('child_first_name')
                     ->label('Farzandning ismi')

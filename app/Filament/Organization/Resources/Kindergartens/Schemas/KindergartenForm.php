@@ -3,6 +3,7 @@
 namespace App\Filament\Organization\Resources\Kindergartens\Schemas;
 
 use App\Enums\KindergartenStatus;
+use App\Enums\KindergartenType;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
@@ -92,6 +93,11 @@ class KindergartenForm
 
             TextInput::make('address')
                 ->label('Manzil')
+                ->required(),
+
+            Select::make('type')
+                ->options(KindergartenType::class)
+                ->label('Turi')
                 ->required(),
 
             RichEditor::make('description')
