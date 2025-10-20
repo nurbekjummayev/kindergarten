@@ -30,6 +30,7 @@ class Login extends BaseLogin
             ->autofocus()
             ->extraInputAttributes(['tabindex' => 1]);
     }
+
     protected function getCredentialsFromFormData(array $data): array
     {
         // +998 prefiksini olib tashlaymiz va faqat raqamlarni qoldiramiz
@@ -45,6 +46,4 @@ class Login extends BaseLogin
             'password' => $data['password'],
         ];
     }
-
-
 }

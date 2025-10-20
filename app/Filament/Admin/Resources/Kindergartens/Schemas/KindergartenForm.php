@@ -3,7 +3,6 @@
 namespace App\Filament\Admin\Resources\Kindergartens\Schemas;
 
 use App\Enums\KindergartenStatus;
-use App\Models\SocialNetwork;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;

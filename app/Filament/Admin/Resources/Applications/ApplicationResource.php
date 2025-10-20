@@ -2,8 +2,6 @@
 
 namespace App\Filament\Admin\Resources\Applications;
 
-use App\Filament\Admin\Resources\Applications\Pages\CreateApplication;
-use App\Filament\Admin\Resources\Applications\Pages\EditApplication;
 use App\Filament\Admin\Resources\Applications\Pages\ListApplications;
 use App\Filament\Admin\Resources\Applications\Pages\ViewApplication;
 use App\Filament\Admin\Resources\Applications\Schemas\ApplicationForm;

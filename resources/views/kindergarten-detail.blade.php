@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    @livewireStyles
 </head>
 <body class="bg-gray-50">
     <!-- Header/Navbar -->
@@ -59,7 +60,7 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <h1 class="text-4xl font-bold mb-3">{{ $kindergarten->name }}</h1>
-                                    <div class="flex items-center gap-3">
+                                    <div class="flex items-center gap-3 mb-3">
                                         <span class="inline-block bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold">
                                             {{ $kindergarten->organization->name }}
                                         </span>
@@ -68,6 +69,10 @@
                                                 Nashr qilingan: {{ $kindergarten->published_at->format('d.m.Y') }}
                                             </span>
                                         @endif
+                                    </div>
+                                    <!-- Rating Component -->
+                                    <div class="mt-2">
+                                        <livewire:kindergarten-rating :kindergarten="$kindergarten" />
                                     </div>
                                 </div>
                                 <button
@@ -262,6 +267,11 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Comments Section -->
+            <div class="mt-8">
+                <livewire:kindergarten-comments :kindergarten="$kindergarten" />
+            </div>
         </div>
     </section>
 
@@ -272,6 +282,7 @@
         </div>
     </footer>
 
+    @livewireScripts
     <script>
         // Initialize Swiper for detail page
         document.addEventListener('DOMContentLoaded', function() {

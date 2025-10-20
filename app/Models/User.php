@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -65,7 +66,22 @@ class User extends Authenticatable implements FilamentUser
 
     public function organization(): HasOne
     {
-        return $this->hasOne(Organization::class, "user_id");
+        return $this->hasOne(Organization::class, 'user_id');
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function commentReactions(): HasMany
+    {
+        return $this->hasMany(CommentReaction::class);
+    }
+
+    public function kindergartenRatings(): HasMany
+    {
+        return $this->hasMany(KindergartenRating::class);
     }
 
     public function canAccessPanel(Panel $panel): bool

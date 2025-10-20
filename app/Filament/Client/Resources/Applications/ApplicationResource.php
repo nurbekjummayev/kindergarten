@@ -3,7 +3,6 @@
 namespace App\Filament\Client\Resources\Applications;
 
 use App\Filament\Client\Resources\Applications\Pages\CreateApplication;
-use App\Filament\Client\Resources\Applications\Pages\EditApplication;
 use App\Filament\Client\Resources\Applications\Pages\ListApplications;
 use App\Filament\Client\Resources\Applications\Schemas\ApplicationForm;
 use App\Filament\Client\Resources\Applications\Tables\ApplicationsTable;

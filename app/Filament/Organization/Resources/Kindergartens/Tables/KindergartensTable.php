@@ -34,25 +34,25 @@ class KindergartensTable
                     ->suffix(' bolalar'),
                 TextColumn::make('age_start')
                     ->label('Yosh')
-                    ->formatStateUsing(fn($record) => $record->age_start . '-' . $record->age_end . ' yosh')
+                    ->formatStateUsing(fn ($record) => $record->age_start.'-'.$record->age_end.' yosh')
                     ->sortable(),
                 TextColumn::make('monthly_fee_start')
                     ->label('Oylik to\'lov')
-                    ->formatStateUsing(fn($record) => number_format($record->monthly_fee_start) . ' - ' . number_format($record->monthly_fee_end) . ' UZS')
+                    ->formatStateUsing(fn ($record) => number_format($record->monthly_fee_start).' - '.number_format($record->monthly_fee_end).' UZS')
                     ->sortable(),
                 TextColumn::make('status')
                     ->label('Holat')
                     ->badge()
                     ->sortable()
-                    ->tooltip(fn(Model $record): ?string => $record->status === KindergartenStatus::REJECTED
-                        ? 'Rad etish sababi: ' . ($record->rejection_reason ?? 'Sabab ko\'rsatilmagan')
+                    ->tooltip(fn (Model $record): ?string => $record->status === KindergartenStatus::REJECTED
+                        ? 'Rad etish sababi: '.($record->rejection_reason ?? 'Sabab ko\'rsatilmagan')
                         : null
                     ),
                 TextColumn::make('published_at')
                     ->label('Nashr qilingan')
-                    ->icon(fn(Model $record) => $record->is_published ? "heroicon-o-check-circle" : "heroicon-o-x-circle")
-                    ->color(fn(Model $record): string => $record->is_published ? 'success' : 'gray')
-                    ->default("Nashr qilinmagan")
+                    ->icon(fn (Model $record) => $record->is_published ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle')
+                    ->color(fn (Model $record): string => $record->is_published ? 'success' : 'gray')
+                    ->default('Nashr qilinmagan')
                     ->badge(),
 
                 TextColumn::make('created_at')

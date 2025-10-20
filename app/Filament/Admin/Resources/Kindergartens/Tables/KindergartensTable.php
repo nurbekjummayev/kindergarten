@@ -2,7 +2,6 @@
 
 namespace App\Filament\Admin\Resources\Kindergartens\Tables;
 
-use App\Enums\KindergartenStatus;
 use App\Filament\Admin\Actions\ApproveKindergartenAction;
 use App\Filament\Admin\Actions\RejectKindergartenAction;
 use Filament\Actions\ViewAction;
@@ -45,19 +44,19 @@ class KindergartensTable
 
                 TextColumn::make('age_start')
                     ->label('Yosh')
-                    ->formatStateUsing(fn($record) => $record->age_start . '-' . $record->age_end . ' yosh')
+                    ->formatStateUsing(fn ($record) => $record->age_start.'-'.$record->age_end.' yosh')
                     ->sortable(),
 
                 TextColumn::make('monthly_fee_start')
                     ->label('Oylik to\'lov')
-                    ->formatStateUsing(fn($record) => number_format($record->monthly_fee_start) . ' - ' . number_format($record->monthly_fee_end) . ' UZS')
+                    ->formatStateUsing(fn ($record) => number_format($record->monthly_fee_start).' - '.number_format($record->monthly_fee_end).' UZS')
                     ->sortable(),
 
                 TextColumn::make('published_at')
                     ->label('Nashr qilingan')
-                    ->icon(fn(Model $record) => $record->is_published ? "heroicon-o-check-circle" : "heroicon-o-x-circle")
-                    ->color(fn(Model $record): string => $record->is_published ? 'success' : 'gray')
-                    ->default("Nashr qilinmagan")
+                    ->icon(fn (Model $record) => $record->is_published ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle')
+                    ->color(fn (Model $record): string => $record->is_published ? 'success' : 'gray')
+                    ->default('Nashr qilinmagan')
                     ->badge(),
 
                 TextColumn::make('created_at')

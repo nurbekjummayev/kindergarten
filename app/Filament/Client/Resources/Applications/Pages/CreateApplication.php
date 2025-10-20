@@ -15,7 +15,7 @@ class CreateApplication extends CreateRecord
         $data['status'] = 'pending';
 
         // Get kindergarten_id from URL if not set
-        if (!isset($data['kindergarten_id']) && request()->has('kindergarten_id')) {
+        if (! isset($data['kindergarten_id']) && request()->has('kindergarten_id')) {
             $data['kindergarten_id'] = request()->get('kindergarten_id');
         }
 

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\KindergartenStatus;
+use App\Enums\KindergartenType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,6 +21,7 @@ class KindergartenFactory extends Factory
         $monthlyFeeStart = fake()->randomFloat(2, 500000, 2000000);
 
         return [
+            'organization_id' => \App\Models\Organization::factory(),
             'name' => fake()->company().' Bog\'chasi',
             'description' => fake()->paragraph(3),
             'email' => fake()->unique()->safeEmail(),
@@ -35,6 +37,7 @@ class KindergartenFactory extends Factory
             'monthly_fee_start' => $monthlyFeeStart,
             'monthly_fee_end' => $monthlyFeeStart + fake()->randomFloat(2, 500000, 1000000),
             'status' => KindergartenStatus::DRAFT,
+            'type' => fake()->randomElement(KindergartenType::cases()),
             'rejection_reason' => null,
             'is_published' => false,
         ];

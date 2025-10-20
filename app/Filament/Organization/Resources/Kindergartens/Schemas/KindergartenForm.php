@@ -3,13 +3,11 @@
 namespace App\Filament\Organization\Resources\Kindergartens\Schemas;
 
 use App\Enums\KindergartenStatus;
-use App\Models\SocialNetwork;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Toggle;
@@ -22,10 +20,10 @@ class KindergartenForm
     {
         return $schema->schema([
             Hidden::make('organization_id')
-                ->default(fn() => auth()->user()->organization->id),
+                ->default(fn () => auth()->user()->organization->id),
 
             Hidden::make('status')
-                ->default(fn() => KindergartenStatus::DRAFT),
+                ->default(fn () => KindergartenStatus::DRAFT),
 
             TextInput::make('name')
                 ->columnSpanFull()
@@ -167,15 +165,15 @@ class KindergartenForm
                         ->label('Boshlanish vaqti')
                         ->seconds(false)
                         ->default('08:00')
-                        ->required(fn(Get $get) => $get('is_open'))
-                        ->disabled(fn(Get $get) => !$get('is_open')),
+                        ->required(fn (Get $get) => $get('is_open'))
+                        ->disabled(fn (Get $get) => ! $get('is_open')),
 
                     TimePicker::make('closing_time')
                         ->label('Tugash vaqti')
                         ->seconds(false)
                         ->default('18:00')
-                        ->required(fn(Get $get) => $get('is_open'))
-                        ->disabled(fn(Get $get) => !$get('is_open'))
+                        ->required(fn (Get $get) => $get('is_open'))
+                        ->disabled(fn (Get $get) => ! $get('is_open'))
                         ->after('opening_time'),
                 ])
                 ->columns(4)

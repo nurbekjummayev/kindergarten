@@ -6,8 +6,8 @@ use App\Filament\Organization\Actions\ApproveApplicationAction;
 use App\Filament\Organization\Actions\RejectApplicationAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 
 class ApplicationsTable
 {
@@ -17,7 +17,7 @@ class ApplicationsTable
             ->columns([
                 TextColumn::make('user.first_name')
                     ->label('Ota-ona')
-                    ->formatStateUsing(fn ($record) => $record->user->first_name . ' ' . $record->user->last_name)
+                    ->formatStateUsing(fn ($record) => $record->user->first_name.' '.$record->user->last_name)
                     ->searchable(['first_name', 'last_name']),
 
                 TextColumn::make('user.phone_number')
@@ -31,7 +31,7 @@ class ApplicationsTable
 
                 TextColumn::make('child_first_name')
                     ->label('Farzand')
-                    ->formatStateUsing(fn ($record) => $record->child_first_name . ' ' . $record->child_last_name)
+                    ->formatStateUsing(fn ($record) => $record->child_first_name.' '.$record->child_last_name)
                     ->searchable(['child_first_name', 'child_last_name']),
 
                 TextColumn::make('child_birth_date')

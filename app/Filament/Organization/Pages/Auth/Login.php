@@ -39,8 +39,8 @@ class Login extends BaseLogin
         $phone = preg_replace('/\D/', '', $data['phone_number']);
 
         // Agar 998 bilan boshlanmasa, qo'shamiz
-        if (!str_starts_with($phone, '998')) {
-            $phone = '998' . $phone;
+        if (! str_starts_with($phone, '998')) {
+            $phone = '998'.$phone;
         }
 
         return [

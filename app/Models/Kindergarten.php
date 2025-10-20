@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\KindergartenStatus;
+use App\Enums\KindergartenType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,6 +31,7 @@ class Kindergarten extends Model
         'monthly_fee_start',
         'monthly_fee_end',
         'status',
+        'type',
         'rejection_reason',
         'is_published',
         'published_at',
@@ -41,6 +43,7 @@ class Kindergarten extends Model
         'monthly_fee_start' => 'decimal:2',
         'monthly_fee_end' => 'decimal:2',
         'status' => KindergartenStatus::class,
+        'type' => KindergartenType::class,
         'galleries' => 'array',
         'capacity' => 'integer',
         'age_start' => 'integer',
@@ -85,6 +88,35 @@ class Kindergarten extends Model
                 WHEN 'sunday' THEN 7
             END
         ");
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(KindergartenRating::class);
+    }
+
+    public function averageRating(): float
+    {
+        return round($this->ratings()->avg('rating') ?? 0, 1);
+    }
+
+    public function totalRatings(): int
+    {
+        return $this->ratings()->count();
+    }
+
+    public function userRating(?int $userId = null): ?int
+    {
+        if (! $userId) {
+            return null;
+        }
+
+        return $this->ratings()->where('user_id', $userId)->value('rating');
     }
 
     public function scopePublished($query)

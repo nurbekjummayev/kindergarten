@@ -10,7 +10,6 @@ class OrganizationKindergartensChart extends ChartWidget
 {
     protected ?string $heading = 'Bog\'chalar holati bo\'yicha';
 
-
     protected static ?int $sort = 2;
 
     public ?string $filter = 'status';

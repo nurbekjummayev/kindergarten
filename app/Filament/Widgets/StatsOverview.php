@@ -16,7 +16,7 @@ class StatsOverview extends StatsOverviewWidget
 {
     protected function getStats(): array
     {
-        $totalUsers = User::query()->where("role", "<>", UserRole::SUPER_ADMIN)->count();
+        $totalUsers = User::query()->where('role', '<>', UserRole::SUPER_ADMIN)->count();
         $totalClients = User::where('role', UserRole::CLIENT)->count();
         $totalOrganizations = Organization::count();
 

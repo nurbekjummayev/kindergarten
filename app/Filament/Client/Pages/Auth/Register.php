@@ -59,8 +59,8 @@ class Register extends BaseRegister
     {
         // Telefon raqamni tozalaymiz
         $phone = preg_replace('/\D/', '', $data['phone_number']);
-        if (!str_starts_with($phone, '998')) {
-            $phone = '998' . $phone;
+        if (! str_starts_with($phone, '998')) {
+            $phone = '998'.$phone;
         }
 
         $user = User::query()->create([
