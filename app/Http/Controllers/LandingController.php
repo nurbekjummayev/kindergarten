@@ -23,7 +23,7 @@ class LandingController extends Controller
             ->limit(3)
             ->get();
 
-        // Top rated kindergartens for carousel
+// Top rated kindergartens for carousel
         $topRatedKindergartens = Kindergarten::published()
             ->with(['organization', 'phones', 'ratings'])
             ->withAvg('ratings', 'rating')
@@ -37,12 +37,12 @@ class LandingController extends Controller
             ->with(['organization', 'kindergartenSocialNetworks.socialNetwork', 'phones', 'ratings', 'comments'])
             ->withCount(['ratings', 'comments']);
 
-        // Search by name
+// Search by name
         if (request()->filled('search')) {
             $query->where('name', 'like', '%'.request('search').'%');
         }
 
-        // Filter by age range
+// Filter by age range
         if (request()->filled('age_min') && request()->filled('age_max')) {
             $ageMin = request('age_min');
             $ageMax = request('age_max');
@@ -54,7 +54,7 @@ class LandingController extends Controller
             $query->where('age_start', '<=', request('age_max'));
         }
 
-        // Filter by price range
+// Filter by price range
         if (request()->filled('price_min')) {
             $query->where('monthly_fee_start', '>=', request('price_min'));
         }
@@ -63,20 +63,22 @@ class LandingController extends Controller
             $query->where('monthly_fee_end', '<=', request('price_max'));
         }
 
-        // Filter by minimum rating
+// Filter by minimum rating - TO'G'RILANGAN
         if (request()->filled('min_rating')) {
             $minRating = request('min_rating');
-            $query->whereHas('ratings', function ($q) use ($minRating) {
-                $q->havingRaw('AVG(rating) >= ?', [$minRating]);
-            });
+            $query->whereRaw('
+        (SELECT AVG(rating)
+         FROM kindergarten_ratings
+         WHERE kindergarten_ratings.kindergarten_id = kindergartens.id) >= ?
+    ', [$minRating]);
         }
 
-        // Filter by type/category
+// Filter by type/category
         if (request()->filled('type')) {
             $query->where('type', request('type'));
         }
 
-        // Sorting
+// Sorting
         $sortBy = request('sort_by', 'newest');
         switch ($sortBy) {
             case 'rating':

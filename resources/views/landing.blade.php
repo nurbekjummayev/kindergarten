@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bog'chalar - Toshkent shahridagi eng yaxshi bog'chalar</title>
+    <title>Bog'chalar - Temiz shahridagi eng yaxshi bog'chalar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -15,14 +15,16 @@
     <div class="container mx-auto px-4 py-3 md:py-4">
         <div class="flex justify-between items-center">
             <a href="{{ route('home') }}" class="text-xl md:text-2xl font-bold text-blue-600">Bog'chalar.uz</a>
+
             <nav class="flex gap-2 md:gap-4 items-center">
+                <!-- Desktop Menu -->
                 <a href="{{ route('home') }}" class="hidden md:block text-gray-700 hover:text-blue-600 px-3 py-2 rounded-lg transition">Bosh sahifa</a>
                 <a href="{{ route('blog.index') }}" class="hidden md:block text-gray-700 hover:text-blue-600 px-3 py-2 rounded-lg transition">Blog</a>
                 <a href="{{ route('faq') }}" class="hidden md:block text-gray-700 hover:text-blue-600 px-3 py-2 rounded-lg transition">FAQ</a>
 
-                <!-- Dropdown for Login Options -->
-                <div class="relative group">
-                    <button class="flex items-center gap-1 md:gap-2 bg-blue-600 text-white px-3 md:px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm md:text-base">
+                <!-- Login Dropdown (Always visible) -->
+                <div class="relative group" id="loginDropdown">
+                    <button onclick="toggleLoginDropdown()" class="flex items-center gap-1 md:gap-2 bg-blue-600 text-white px-3 md:px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm md:text-base">
                         <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
@@ -31,7 +33,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
-                    <div class="absolute right-0 mt-2 w-52 md:w-56 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div id="loginDropdownMenu" class="absolute right-0 mt-2 w-52 md:w-56 bg-white rounded-lg shadow-lg opacity-0 invisible md:group-hover:opacity-100 md:group-hover:visible transition-all duration-200 z-50">
                         <div class="py-2">
                             <a href="{{ url('/client') }}" class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-green-50 hover:text-green-700 transition">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -63,7 +65,51 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-700 hover:text-blue-600 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
             </nav>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Modal -->
+    <div id="mobileMenu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden md:hidden">
+        <div class="fixed inset-y-0 right-0 w-64 bg-white shadow-2xl transform transition-transform">
+            <!-- Menu Header -->
+            <div class="flex justify-between items-center p-4 border-b">
+                <h3 class="text-lg font-bold text-gray-900">Menyu</h3>
+                <button onclick="toggleMobileMenu()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Menu Items -->
+            <div class="py-4">
+                <a href="{{ route('home') }}" class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span class="font-medium">Bosh sahifa</span>
+                </a>
+                <a href="{{ route('blog.index') }}" class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                    </svg>
+                    <span class="font-medium">Blog</span>
+                </a>
+                <a href="{{ route('faq') }}" class="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="font-medium">FAQ</span>
+                </a>
+            </div>
         </div>
     </div>
 </header>
@@ -72,7 +118,7 @@
 <section class="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-12 md:py-20">
     <div class="container mx-auto px-4 text-center">
         <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4">Farzandingiz uchun eng yaxshi bog'cha toping</h2>
-        <p class="text-base sm:text-lg md:text-xl mb-6 md:mb-8">Toshkent shahridagi barcha sifatli bog'chalar bir platformada</p>
+        <p class="text-base sm:text-lg md:text-xl mb-6 md:mb-8">Temiz shahridagi barcha sifatli bog'chalar bir platformada</p>
         <a href="#kindergartens"
            class="inline-block bg-white text-blue-600 px-6 md:px-8 py-2 md:py-3 rounded-lg font-semibold hover:bg-gray-100 transition text-sm md:text-base">
             Bog'chalarni ko'rish
@@ -326,10 +372,20 @@
 <!-- Search and Filters -->
 <section id="kindergartens" class="py-8 md:py-12 bg-gray-50">
     <div class="container mx-auto px-4">
-        <h2 class="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center">Bog'chalar ro'yxati</h2>
+        <div class="flex justify-between items-center mb-6 md:mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-center flex-1">Bog'chalar ro'yxati</h2>
 
-        <!-- Search and Filter Form -->
-        <form method="GET" action="{{ route('home') }}" class="bg-white rounded-lg shadow-md p-4 md:p-6 mb-6 md:mb-8">
+            <!-- Mobile Filter Button -->
+            <button type="button" onclick="toggleFilterModal()" class="md:hidden bg-blue-600 text-white p-3 rounded-lg shadow-lg hover:bg-blue-700 transition flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                </svg>
+                <span class="text-sm font-semibold">Filtr</span>
+            </button>
+        </div>
+
+        <!-- Desktop Filter Form (Hidden on Mobile) -->
+        <form method="GET" action="{{ route('home') }}#kindergartens" class="hidden md:block bg-white rounded-lg shadow-md p-4 md:p-6 mb-6 md:mb-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                 <!-- Search -->
                 <div class="lg:col-span-2">
@@ -454,7 +510,7 @@
                     </svg>
                     Qidirish
                 </button>
-                <a href="{{ route('home') }}"
+                <a href="{{ route('home') }}#kindergartens"
                    class="flex-1 md:flex-none bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition text-center">
                     <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
@@ -463,6 +519,157 @@
                 </a>
             </div>
         </form>
+
+        <!-- Mobile Filter Modal -->
+        <div id="filterModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden md:hidden">
+            <div class="fixed inset-x-0 bottom-0 bg-white rounded-t-2xl shadow-2xl max-h-[90vh] overflow-y-auto">
+                <!-- Modal Header -->
+                <div class="sticky top-0 bg-white border-b px-4 py-4 flex justify-between items-center z-10">
+                    <h3 class="text-lg font-bold text-gray-900">Qidiruv filtrlari</h3>
+                    <button type="button" onclick="toggleFilterModal()" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Modal Form -->
+                <form method="GET" action="{{ route('home') }}#kindergartens" class="p-4 pb-6">
+                    <div class="space-y-4">
+                        <!-- Search -->
+                        <div>
+                            <label for="mobile_search" class="block text-sm font-medium text-gray-700 mb-2">
+                                <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                                Bog'cha nomi
+                            </label>
+                            <input type="text" name="search" id="mobile_search" value="{{ request('search') }}"
+                                   placeholder="Bog'cha nomini kiriting..."
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+
+                        <!-- Age Range -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label for="mobile_age_min" class="block text-sm font-medium text-gray-700 mb-2">
+                                    <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                    </svg>
+                                    Yosh (dan)
+                                </label>
+                                <input type="number" name="age_min" id="mobile_age_min" value="{{ request('age_min') }}"
+                                       placeholder="2"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label for="mobile_age_max" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Yosh (gacha)
+                                </label>
+                                <input type="number" name="age_max" id="mobile_age_max" value="{{ request('age_max') }}"
+                                       placeholder="7"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                        </div>
+
+                        <!-- Price Range -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label for="mobile_price_min" class="block text-sm font-medium text-gray-700 mb-2">
+                                    <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    Narx (dan)
+                                </label>
+                                <input type="number" name="price_min" id="mobile_price_min" value="{{ request('price_min') }}"
+                                       placeholder="500000"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label for="mobile_price_max" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Narx (gacha)
+                                </label>
+                                <input type="number" name="price_max" id="mobile_price_max" value="{{ request('price_max') }}"
+                                       placeholder="2000000"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                        </div>
+
+                        <!-- Type -->
+                        <div>
+                            <label for="mobile_type" class="block text-sm font-medium text-gray-700 mb-2">
+                                <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                </svg>
+                                Turi
+                            </label>
+                            <select name="type" id="mobile_type"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">Barcha turlar</option>
+                                @foreach(\App\Enums\KindergartenType::cases() as $typeOption)
+                                    <option value="{{ $typeOption->value }}" {{ request('type') == $typeOption->value ? 'selected' : '' }}>
+                                        {{ $typeOption->getLabel() }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Rating -->
+                        <div>
+                            <label for="mobile_min_rating" class="block text-sm font-medium text-gray-700 mb-2">
+                                <svg class="inline-block w-4 h-4 mr-1 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                                Min. reyting
+                            </label>
+                            <select name="min_rating" id="mobile_min_rating"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">Barchasi</option>
+                                <option value="4" {{ request('min_rating') == '4' ? 'selected' : '' }}>4+ yulduz</option>
+                                <option value="3" {{ request('min_rating') == '3' ? 'selected' : '' }}>3+ yulduz</option>
+                                <option value="2" {{ request('min_rating') == '2' ? 'selected' : '' }}>2+ yulduz</option>
+                            </select>
+                        </div>
+
+                        <!-- Sort -->
+                        <div>
+                            <label for="mobile_sort_by" class="block text-sm font-medium text-gray-700 mb-2">
+                                <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path>
+                                </svg>
+                                Saralash
+                            </label>
+                            <select name="sort_by" id="mobile_sort_by"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="newest" {{ request('sort_by') == 'newest' ? 'selected' : '' }}>Yangilari</option>
+                                <option value="rating" {{ request('sort_by') == 'rating' ? 'selected' : '' }}>Yuqori reyting</option>
+                                <option value="price_low" {{ request('sort_by') == 'price_low' ? 'selected' : '' }}>Arzon narx</option>
+                                <option value="price_high" {{ request('sort_by') == 'price_high' ? 'selected' : '' }}>Qimmat narx</option>
+                                <option value="name" {{ request('sort_by') == 'name' ? 'selected' : '' }}>Nomi bo'yicha</option>
+                            </select>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex gap-3 pt-4">
+                            <button type="submit"
+                                    class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition shadow-md">
+                                <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                                Qidirish
+                            </button>
+                            <a href="{{ route('home') }}#kindergartens"
+                               onclick="toggleFilterModal()"
+                               class="flex-none bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition text-center">
+                                <svg class="inline-block w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <!-- Results Count -->
         @if(request()->hasAny(['search', 'age_min', 'age_max', 'price_min', 'price_max', 'min_rating', 'sort_by']))
@@ -715,6 +922,248 @@
 </section>
 @endif
 
+<!-- FAQ Section -->
+<section class="py-12 md:py-16 bg-white">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <!-- Section Header -->
+        <div class="text-center mb-10 md:mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Ko'p so'raladigan savollar
+            </h2>
+            <p class="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
+                Platformamiz haqida eng ko'p beriladigan savollarga javoblar
+            </p>
+        </div>
+
+        <!-- FAQ Category 1: Bog'cha tanlash -->
+        <div class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                Bog'cha tanlash
+            </h2>
+
+            <div class="space-y-4">
+                <!-- Question 1 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button class="faq-button w-full text-left p-6 flex items-center justify-between hover:bg-gray-50 transition">
+                        <span class="font-semibold text-gray-900 pr-4">Qanday bog'cha tanlash kerak?</span>
+                        <svg class="faq-icon w-6 h-6 text-blue-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden p-6 pt-0 text-gray-600 leading-relaxed">
+                        <p class="mb-3">Bog'cha tanlashda quyidagi mezonlarga e'tibor bering:</p>
+                        <ul class="list-disc list-inside space-y-2 ml-4">
+                            <li><strong>Joylashuv:</strong> Uyingizdan yoki ish joyingizdan qancha masofada joylashgan</li>
+                            <li><strong>Narx:</strong> Oylik to'lov sizning byudjetingizga mos keladimi</li>
+                            <li><strong>Yosh oralig'i:</strong> Bog'cha farzandingiz yoshiga mos kelishi kerak</li>
+                            <li><strong>Reyting va izohlar:</strong> Boshqa ota-onalarning fikrlari muhim</li>
+                            <li><strong>Bog'cha turi:</strong> Davlat, xususiy, Montessori yoki til o'rgatadigan bog'chalarni taqqoslang</li>
+                            <li><strong>Dastur va o'qitish usullari:</strong> Bog'chada qanday dastur bo'yicha ta'lim berilishi</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button class="faq-button w-full text-left p-6 flex items-center justify-between hover:bg-gray-50 transition">
+                        <span class="font-semibold text-gray-900 pr-4">Platformada qanday qilib qidirsam bo'ladi?</span>
+                        <svg class="faq-icon w-6 h-6 text-blue-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden p-6 pt-0 text-gray-600 leading-relaxed">
+                        <p class="mb-3">Platformamizda qidirish juda oson:</p>
+                        <ol class="list-decimal list-inside space-y-2 ml-4">
+                            <li>Bosh sahifada qidiruv formadan foydalaning</li>
+                            <li>Bog'cha nomini, yosh oralig'ini yoki narxni kiriting</li>
+                            <li>Filtrlar yordamida natijalarni toraytiring (tur, reyting, saralash)</li>
+                            <li>Yoqqan bog'chani bosib, batafsil ma'lumotlarni ko'ring</li>
+                        </ol>
+                        <p class="mt-3">Barcha filtrlar real vaqtda ishlaydi va natijalar darhol yangilanadi.</p>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button class="faq-button w-full text-left p-6 flex items-center justify-between hover:bg-gray-50 transition">
+                        <span class="font-semibold text-gray-900 pr-4">Bog'chalarni qanday taqqoslash mumkin?</span>
+                        <svg class="faq-icon w-6 h-6 text-blue-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden p-6 pt-0 text-gray-600 leading-relaxed">
+                        <p>Har bir bog'cha kartasida quyidagilar ko'rsatiladi:</p>
+                        <ul class="list-disc list-inside space-y-2 ml-4 mt-3">
+                            <li>O'rtacha reyting (yulduzchalar)</li>
+                            <li>Izohlar soni</li>
+                            <li>Oylik to'lov oralig'i</li>
+                            <li>Yosh oralig'i</li>
+                            <li>Bog'cha turi</li>
+                            <li>Manzil va bog'lanish ma'lumotlari</li>
+                        </ul>
+                        <p class="mt-3">Batafsil sahifada esa galereyalar, ish vaqtlari va boshqa ma'lumotlar mavjud.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Category 2: Ariza berish -->
+        <div class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                Ariza berish
+            </h2>
+
+            <div class="space-y-4">
+                <!-- Question 4 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button class="faq-button w-full text-left p-6 flex items-center justify-between hover:bg-gray-50 transition">
+                        <span class="font-semibold text-gray-900 pr-4">Ariza qanday beriladi?</span>
+                        <svg class="faq-icon w-6 h-6 text-blue-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden p-6 pt-0 text-gray-600 leading-relaxed">
+                        <p class="mb-3">Ariza berish jarayoni juda oddiy:</p>
+                        <ol class="list-decimal list-inside space-y-2 ml-4">
+                            <li><strong>Ro'yxatdan o'ting:</strong> Platformaga tizimga kiring yoki yangi akkaunt yarating</li>
+                            <li><strong>Bog'chani tanlang:</strong> Yoqqan bog'chaning sahifasiga o'ting</li>
+                            <li><strong>Ariza tugmasini bosing:</strong> "Ariza qoldirish" yoki "Batafsil ma'lumot" tugmasini bosing</li>
+                            <li><strong>Ma'lumotlarni to'ldiring:</strong> Oddiy formani to'ldiring (farzand ismi, yoshi, ota-ona ma'lumotlari)</li>
+                            <li><strong>Yuborish:</strong> Arizani yuboring va javob kutib turing</li>
+                        </ol>
+                        <p class="mt-3 font-semibold text-gray-900">Bog'cha ma'muriyati sizga 1-3 ish kuni ichida javob beradi.</p>
+                    </div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button class="faq-button w-full text-left p-6 flex items-center justify-between hover:bg-gray-50 transition">
+                        <span class="font-semibold text-gray-900 pr-4">Bir nechta bog'chaga ariza bersam bo'ladimi?</span>
+                        <svg class="faq-icon w-6 h-6 text-blue-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden p-6 pt-0 text-gray-600 leading-relaxed">
+                        <p>Ha, albatta! Siz bir nechta bog'chaga ariza berishingiz mumkin. Bu sizga:</p>
+                        <ul class="list-disc list-inside space-y-2 ml-4 mt-3">
+                            <li>Ko'proq tanlov imkoniyati beradi</li>
+                            <li>Qabul qilish ehtimolini oshiradi</li>
+                            <li>Narx va shartlarni taqqoslash imkonini beradi</li>
+                        </ul>
+                        <p class="mt-3">Tavsiya: 2-3 ta bog'chaga ariza bering va eng yaxshi javobni tanlang.</p>
+                    </div>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button class="faq-button w-full text-left p-6 flex items-center justify-between hover:bg-gray-50 transition">
+                        <span class="font-semibold text-gray-900 pr-4">Arizamni qanday kuzataman?</span>
+                        <svg class="faq-icon w-6 h-6 text-blue-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden p-6 pt-0 text-gray-600 leading-relaxed">
+                        <p>Tizimga kirgandan so'ng, shaxsiy kabinetingizda:</p>
+                        <ul class="list-disc list-inside space-y-2 ml-4 mt-3">
+                            <li>"Mening arizalarim" bo'limida barcha arizalaringizni ko'rishingiz mumkin</li>
+                            <li>Har bir arizaning holati ko'rsatiladi (ko'rib chiqilmoqda, qabul qilindi, rad etildi)</li>
+                            <li>Bog'cha javob berganda email yoki SMS orqali xabar keladi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Category 3: To'lovlar -->
+        <div class="mb-12">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+                To'lovlar haqida
+            </h2>
+
+            <div class="space-y-4">
+                <!-- Question 7 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button class="faq-button w-full text-left p-6 flex items-center justify-between hover:bg-gray-50 transition">
+                        <span class="font-semibold text-gray-900 pr-4">Platformadan foydalanish pullikmi?</span>
+                        <svg class="faq-icon w-6 h-6 text-blue-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden p-6 pt-0 text-gray-600 leading-relaxed">
+                        <p class="text-lg font-semibold text-green-600 mb-3">Yo'q, platformamiz ota-onalar uchun mutlaqo bepul!</p>
+                        <p>Siz quyidagilarni to'lovsiz qilishingiz mumkin:</p>
+                        <ul class="list-disc list-inside space-y-2 ml-4 mt-3">
+                            <li>Bog'chalarni qidirish va ko'rish</li>
+                            <li>Filtrlar va saralash</li>
+                            <li>Ariza yuborish</li>
+                            <li>Sharh va reyting qoldirish</li>
+                            <li>Bog'chalar bilan to'g'ridan-to'g'ri bog'lanish</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Question 8 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button class="faq-button w-full text-left p-6 flex items-center justify-between hover:bg-gray-50 transition">
+                        <span class="font-semibold text-gray-900 pr-4">Bog'chaga to'lovlar qanday amalga oshiriladi?</span>
+                        <svg class="faq-icon w-6 h-6 text-blue-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden p-6 pt-0 text-gray-600 leading-relaxed">
+                        <p>Bog'chaga to'lovlarni to'g'ridan-to'g'ri bog'cha bilan kelishib amalga oshirasiz:</p>
+                        <ul class="list-disc list-inside space-y-2 ml-4 mt-3">
+                            <li><strong>Boshlang'ich to'lov:</strong> Ro'yxatga olish uchun birinchi to'lov (agar mavjud bo'lsa)</li>
+                            <li><strong>Oylik to'lov:</strong> Har oy bo'sh bo'yicha bog'chaga to'lanadi</li>
+                            <li><strong>To'lov usullari:</strong> Naqd, plastik karta yoki bank o'tkazmasi (bog'chaga qarab)</li>
+                        </ul>
+                        <p class="mt-3 text-sm bg-blue-50 p-3 rounded">
+                            <strong>Muhim:</strong> Platformamiz to'lovlar jarayonida vositachi emas. Barcha to'lovlar to'g'ridan-to'g'ri bog'cha bilan amalga oshiriladi.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Question 9 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button class="faq-button w-full text-left p-6 flex items-center justify-between hover:bg-gray-50 transition">
+                        <span class="font-semibold text-gray-900 pr-4">Oylik to'lov nimalarni o'z ichiga oladi?</span>
+                        <svg class="faq-icon w-6 h-6 text-blue-600 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer hidden p-6 pt-0 text-gray-600 leading-relaxed">
+                        <p>Oylik to'lov odatda quyidagilarni o'z ichiga oladi:</p>
+                        <ul class="list-disc list-inside space-y-2 ml-4 mt-3">
+                            <li>Kunlik parvarish va ta'lim</li>
+                            <li>Ovqatlanish (ertalab, tushlik, peşin)</li>
+                            <li>O'quv mashg'ulotlari va o'yinlar</li>
+                            <li>Asosiy o'quv materiallari</li>
+                        </ul>
+                        <p class="mt-3"><strong>Qo'shimcha to'lovlar:</strong></p>
+                        <ul class="list-disc list-inside space-y-2 ml-4 mt-2">
+                            <li>Qo'shimcha darslar (ingliz tili, sport, san'at)</li>
+                            <li>Ekskursiyalar va tadbirlar</li>
+                            <li>Transport xizmati (agar bo'lsa)</li>
+                        </ul>
+                        <p class="mt-3 text-sm bg-yellow-50 p-3 rounded">
+                            Aniq ma'lumot uchun bog'cha bilan to'g'ridan-to'g'ri bog'laning.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Footer -->
 <footer class="bg-gray-800 text-white py-6 md:py-8 mt-8 md:mt-12">
     <div class="container mx-auto px-4 text-center">
@@ -744,6 +1193,115 @@
         });
         @endif
         @endforeach
+    });
+
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        if (menu.classList.contains('hidden')) {
+            menu.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        } else {
+            menu.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    }
+
+    // Login Dropdown Toggle (for mobile)
+    function toggleLoginDropdown() {
+        const dropdown = document.getElementById('loginDropdownMenu');
+        dropdown.classList.toggle('opacity-0');
+        dropdown.classList.toggle('invisible');
+        dropdown.classList.toggle('opacity-100');
+        dropdown.classList.toggle('visible');
+    }
+
+    // Mobile Filter Modal Toggle
+    function toggleFilterModal() {
+        const modal = document.getElementById('filterModal');
+        if (modal.classList.contains('hidden')) {
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent body scroll when modal is open
+        } else {
+            modal.classList.add('hidden');
+            document.body.style.overflow = ''; // Restore body scroll
+        }
+    }
+
+    // FAQ Accordion functionality
+    const faqButtons = document.querySelectorAll('.faq-button');
+    faqButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const answer = this.nextElementSibling;
+            const icon = this.querySelector('.faq-icon');
+
+            // Close all other answers
+            document.querySelectorAll('.faq-answer').forEach(item => {
+                if (item !== answer && !item.classList.contains('hidden')) {
+                    item.classList.add('hidden');
+                    item.previousElementSibling.querySelector('.faq-icon').classList.remove('rotate-180');
+                }
+            });
+
+            // Toggle current answer
+            answer.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        });
+    });
+
+    // Close modals when clicking outside
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile menu
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenu) {
+            mobileMenu.addEventListener('click', function(e) {
+                if (e.target === mobileMenu) {
+                    toggleMobileMenu();
+                }
+            });
+        }
+
+        // Login dropdown - close when clicking outside
+        document.addEventListener('click', function(e) {
+            const loginDropdown = document.getElementById('loginDropdown');
+            const loginDropdownMenu = document.getElementById('loginDropdownMenu');
+            if (loginDropdown && loginDropdownMenu && !loginDropdown.contains(e.target)) {
+                loginDropdownMenu.classList.add('opacity-0');
+                loginDropdownMenu.classList.add('invisible');
+                loginDropdownMenu.classList.remove('opacity-100');
+                loginDropdownMenu.classList.remove('visible');
+            }
+        });
+
+        // Filter modal
+        const modal = document.getElementById('filterModal');
+        if (modal) {
+            // Close modal when clicking outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    toggleFilterModal();
+                }
+            });
+
+            // Handle form submit in modal
+            const modalForm = modal.querySelector('form');
+            if (modalForm) {
+                modalForm.addEventListener('submit', function() {
+                    // Close modal before form submits
+                    toggleFilterModal();
+                });
+            }
+        }
+
+        // Smooth scroll to kindergartens section if hash is present
+        if (window.location.hash === '#kindergartens') {
+            setTimeout(function() {
+                const section = document.getElementById('kindergartens');
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
     });
 </script>
 
